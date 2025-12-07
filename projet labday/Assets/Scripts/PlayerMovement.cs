@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     private float rotationX = 0;
     private CharacterController characterController;
 
-    private bool canMove = true;
+    [HideInInspector] public bool canMove = true;
 
     void Start()
     {
@@ -59,7 +59,6 @@ public class PlayerMovement : MonoBehaviour
             characterController.height = crouchHeight;
             walkSpeed = crouchSpeed;
             runSpeed = crouchSpeed;
-
         }
         else
         {
@@ -68,14 +67,16 @@ public class PlayerMovement : MonoBehaviour
             runSpeed = 12f;
         }
 
-        characterController.Move(moveDirection * Time.deltaTime);
-
-        if (canMove)
+        // ⚠️ CHANGEMENT ICI : Vérifier que le CharacterController est activé
+        if (characterController.enabled)
         {
-            rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
-            rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
-            playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-            transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+            characterController.Move(moveDirection * Time.deltaTime);
         }
+
+        // Caméra fonctionne toujours
+        rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
+        rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
+        playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+        transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
     }
 }

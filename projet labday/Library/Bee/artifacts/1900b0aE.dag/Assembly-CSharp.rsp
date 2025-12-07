@@ -477,6 +477,7 @@
 "Assets/AQUAS-Lite/Scripts/AQUAS_Lite_CamNav.cs"
 "Assets/AQUAS-Lite/Scripts/AQUAS_Lite_Reflection.cs"
 "Assets/Scripts/AudioManager.cs"
+"Assets/Scripts/BoatController.cs"
 "Assets/Scripts/Data/HeightMapSettings.cs"
 "Assets/Scripts/Data/MeshSettings.cs"
 "Assets/Scripts/Data/TextureData.cs"
@@ -493,6 +494,8 @@
 "Assets/Scripts/TerrainGenerator.cs"
 "Assets/Scripts/TextureGenerator.cs"
 "Assets/Scripts/ThreadedDataRequester.cs"
+"Assets/Scripts/TreeSpawner.cs"
+"Assets/Scripts/VegetationSpawner.cs"
 -langversion:9.0
 /deterministic
 /optimize+

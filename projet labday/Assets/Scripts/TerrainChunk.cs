@@ -28,6 +28,9 @@ public class TerrainChunk {
 	MeshSettings meshSettings;
 	Transform viewer;
 
+	private VegetationSpawner vegetationSpawner;
+	private bool vegetationSpawned = false;
+
 	public TerrainChunk(Vector2 coord, HeightMapSettings heightMapSettings, MeshSettings meshSettings, LODInfo[] detailLevels, int colliderLODIndex, Transform parent, Transform viewer, Material material) {
 		this.coord = coord;
 		this.detailLevels = detailLevels;
@@ -62,6 +65,7 @@ public class TerrainChunk {
 
 		maxViewDst = detailLevels [detailLevels.Length - 1].visibleDstThreshold;
 
+		vegetationSpawner = Object.FindObjectOfType<VegetationSpawner>();
 	}
 
 	public void Load() {
@@ -107,17 +111,26 @@ public class TerrainChunk {
 					if (lodMesh.hasMesh) {
 						previousLODIndex = lodIndex;
 						meshFilter.mesh = lodMesh.mesh;
+						
+						if (!vegetationSpawned && vegetationSpawner != null && lodMesh.mesh != null) {
+							vegetationSpawner.SpawnOnChunk(coord, lodMesh.mesh, meshSettings, meshObject.transform);
+							vegetationSpawned = true;
+						}
 					} else if (!lodMesh.hasRequestedMesh) {
 						lodMesh.RequestMesh (heightMap, meshSettings);
 					}
 				}
-
-
 			}
 
 			if (wasVisible != visible) {
-				
 				SetVisible (visible);
+				
+				if (vegetationSpawner != null) {
+					if (!visible) {
+						vegetationSpawner.HideOnChunk(coord);
+					}
+				}
+
 				if (onVisibilityChanged != null) {
 					onVisibilityChanged (this, visible);
 				}
