@@ -476,6 +476,7 @@
 "Assets/AQUAS-Lite/Scripts/AQUAS_Lite_Camera.cs"
 "Assets/AQUAS-Lite/Scripts/AQUAS_Lite_CamNav.cs"
 "Assets/AQUAS-Lite/Scripts/AQUAS_Lite_Reflection.cs"
+"Assets/health bar/Health.cs"
 "Assets/Jinxish/Drag & Drop Inventory & Hotbar Framework/Scripts/DragContext.cs"
 "Assets/Jinxish/Drag & Drop Inventory & Hotbar Framework/Scripts/FPSController.cs"
 "Assets/Jinxish/Drag & Drop Inventory & Hotbar Framework/Scripts/Hotbar.cs"
