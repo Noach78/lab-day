@@ -69,6 +69,7 @@
     <Compile Include="Assets\AQUAS-Lite\Scripts\AQUAS_Lite_Camera.cs" />
     <Compile Include="Assets\Scripts\VegetationSpawner.cs" />
     <Compile Include="Assets\Jinxish\Drag &amp; Drop Inventory &amp; Hotbar Framework\Scripts\InventoryTester.cs" />
+    <Compile Include="Assets\Scripts\CoinCollection.cs" />
     <Compile Include="Assets\Scripts\TextureGenerator.cs" />
     <Compile Include="Assets\Jinxish\Drag &amp; Drop Inventory &amp; Hotbar Framework\Scripts\DragContext.cs" />
     <Compile Include="Assets\Jinxish\Drag &amp; Drop Inventory &amp; Hotbar Framework\Scripts\Player.cs" />
@@ -114,6 +115,7 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+    <None Include="Assets\Stylized Sea Chest\ReadMe.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\health bar\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\health bar\TextMesh Pro\Shaders\TMP_SDF.shader" />

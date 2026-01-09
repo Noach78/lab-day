@@ -494,6 +494,7 @@
 "Assets/Scripts/Animate.cs"
 "Assets/Scripts/AudioManager.cs"
 "Assets/Scripts/BoatController.cs"
+"Assets/Scripts/CoinCollection.cs"
 "Assets/Scripts/Data/HeightMapSettings.cs"
 "Assets/Scripts/Data/MeshSettings.cs"
 "Assets/Scripts/Data/TextureData.cs"
