@@ -10,7 +10,6 @@ public class Animate : MonoBehaviour
         PlayerAnimator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         float moveAmount = Input.GetAxis("Vertical");

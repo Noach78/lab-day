@@ -22,6 +22,8 @@ public class PlayerMovement : MonoBehaviour
 
     [HideInInspector] public bool canMove = true;
 
+    public PlayerHealth healthScript;
+
     void Start()
     {
         characterController = GetComponent<CharacterController>();
@@ -31,6 +33,15 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+
+        if (healthScript.currentHealth <= 0)
+        {
+            canMove = false; 
+            }
+        else
+        {
+            canMove = true; 
+        }
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
 
@@ -67,13 +78,11 @@ public class PlayerMovement : MonoBehaviour
             runSpeed = 12f;
         }
 
-        // ⚠️ CHANGEMENT ICI : Vérifier que le CharacterController est activé
         if (characterController.enabled)
         {
             characterController.Move(moveDirection * Time.deltaTime);
         }
 
-        // Caméra fonctionne toujours
         rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
         rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
         playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
