@@ -20,10 +20,15 @@ public class BossController : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-
         
         if (player == null)
-            player = GameObject.FindGameObjectWithTag("Player").transform;
+        {
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+            {
+                player = playerObj.transform;
+            }
+        }
     }
 
     void Update()
@@ -48,27 +53,51 @@ public class BossController : MonoBehaviour
 
     void ChasePlayer()
     {
-        agent.isStopped = false;
-        agent.SetDestination(player.position);
-        animator.SetBool("isMoving", true);
+        if (agent.isActiveAndEnabled && agent.isOnNavMesh)
+        {
+            agent.isStopped = false;
+            agent.SetDestination(player.position);
+        }
+        
+        if (animator != null && animator.runtimeAnimatorController != null)
+        {
+            animator.SetBool("isMoving", true);
+        }
     }
 
     void StopChasing()
     {
-        agent.isStopped = true;
-        animator.SetBool("isMoving", false);
+        if (agent.isActiveAndEnabled && agent.isOnNavMesh)
+        {
+            agent.isStopped = true;
+        }
+
+        if (animator != null && animator.runtimeAnimatorController != null)
+        {
+            animator.SetBool("isMoving", false);
+        }
     }
 
     void AttackPlayer()
     {
-        agent.isStopped = true;
-        animator.SetBool("isMoving", false);
+        if (agent.isActiveAndEnabled && agent.isOnNavMesh)
+        {
+            agent.isStopped = true;
+        }
+
+        if (animator != null && animator.runtimeAnimatorController != null)
+        {
+            animator.SetBool("isMoving", false);
+        }
 
         transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z));
 
         if (Time.time - lastAttackTime >= attackCooldown)
         {
-            animator.SetTrigger("Attack");
+            if (animator != null && animator.runtimeAnimatorController != null)
+            {
+                animator.SetTrigger("Attack");
+            }
             
             lastAttackTime = Time.time;
 

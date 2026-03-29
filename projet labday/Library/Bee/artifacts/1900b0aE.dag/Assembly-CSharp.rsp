@@ -515,6 +515,7 @@
 "Assets/Scripts/MapPreview.cs"
 "Assets/Scripts/MeshGenerator.cs"
 "Assets/Scripts/Noise.cs"
+"Assets/Scripts/PlayerController.cs"
 "Assets/Scripts/PlayerHealth.cs"
 "Assets/Scripts/PlayerMovement.cs"
 "Assets/Scripts/TerrainChunk.cs"

@@ -29,8 +29,7 @@ public class TerrainChunk {
 	Transform viewer;
 
 	private VegetationSpawner vegetationSpawner;
-	private bool vegetationSpawned = false;
-
+private bool vegetationIsVisible = false;
 	public TerrainChunk(Vector2 coord, HeightMapSettings heightMapSettings, MeshSettings meshSettings, LODInfo[] detailLevels, int colliderLODIndex, Transform parent, Transform viewer, Material material) {
 		this.coord = coord;
 		this.detailLevels = detailLevels;
@@ -111,26 +110,30 @@ public class TerrainChunk {
 					if (lodMesh.hasMesh) {
 						previousLODIndex = lodIndex;
 						meshFilter.mesh = lodMesh.mesh;
-						
-						if (!vegetationSpawned && vegetationSpawner != null && lodMesh.mesh != null) {
-							vegetationSpawner.SpawnOnChunk(coord, lodMesh.mesh, meshSettings, meshObject.transform);
-							vegetationSpawned = true;
-						}
 					} else if (!lodMesh.hasRequestedMesh) {
 						lodMesh.RequestMesh (heightMap, meshSettings);
 					}
 				}
 			}
 
-			if (wasVisible != visible) {
-				SetVisible (visible);
-				
-				if (vegetationSpawner != null) {
-					if (!visible) {
+			if (vegetationSpawner != null) {
+				bool vegetationShouldBeVisible = visible && viewerDstFromNearestEdge <= detailLevels[0].visibleDstThreshold;
+
+				if (vegetationShouldBeVisible) {
+					if (lodMeshes[0].hasMesh && !vegetationIsVisible) {
+						vegetationSpawner.SpawnOnChunk(coord, lodMeshes[0].mesh, meshSettings, meshObject.transform);
+						vegetationIsVisible = true;
+					}
+				} else {
+					if (vegetationIsVisible) {
 						vegetationSpawner.HideOnChunk(coord);
+						vegetationIsVisible = false;
 					}
 				}
+			}
 
+			if (wasVisible != visible) {
+				SetVisible (visible);
 				if (onVisibilityChanged != null) {
 					onVisibilityChanged (this, visible);
 				}

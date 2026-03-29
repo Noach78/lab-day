@@ -60,6 +60,7 @@
     <Compile Include="Assets\Scripts\PlayerHealth.cs" />
     <Compile Include="Assets\Scripts\HeightMapGenerator.cs" />
     <Compile Include="Assets\Scripts\FollowPlayerWater.cs" />
+    <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Boss Tortue\Demo\Turtle_AnimationEvents.cs" />
     <Compile Include="Assets\Scripts\Data\HeightMapSettings.cs" />
     <Compile Include="Assets\Island\Scripts\FixedTiling.cs" />
