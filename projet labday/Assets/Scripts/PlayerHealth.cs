@@ -16,6 +16,9 @@ public class PlayerHealth : MonoBehaviour
     public float fadeSpeed = 5f;   
     public float damageAlpha = 0.5f; 
 
+    [Header("Animation")]
+    public Animator animator;
+
 
     void Start()
     {
@@ -75,6 +78,12 @@ public class PlayerHealth : MonoBehaviour
     void Die()
     {
         Debug.Log("Game Over !");
+        
+        if (animator != null)
+        {
+            animator.SetTrigger("Die"); 
+        }
+
         if (deathOverlay != null)
         {
             Color c = deathOverlay.color;
