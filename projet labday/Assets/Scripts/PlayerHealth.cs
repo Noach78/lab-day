@@ -90,5 +90,7 @@ public class PlayerHealth : MonoBehaviour
             c.a = damageAlpha; 
             deathOverlay.color = c;
         }
+        GetComponent<PlayerMovement>().enabled = false;
+        GetComponent<Collider>().enabled = false;
     }
 }
