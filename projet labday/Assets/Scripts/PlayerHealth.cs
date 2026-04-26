@@ -1,5 +1,7 @@
 using UnityEngine;
-using UnityEngine.UI; 
+using UnityEngine.UI;
+using TMPro;
+
 public class PlayerHealth : MonoBehaviour
 {
     [Header("Configurations")]
@@ -9,8 +11,7 @@ public class PlayerHealth : MonoBehaviour
     [Header("Interfaces")]
     public Image healthBarImage;   
     public Image damageOverlay;        
-    public Text deathOverlay;    
-
+    public TextMeshProUGUI deathOverlay;    
 
     [Header("Damage effect")]
     public float fadeSpeed = 5f;   
@@ -19,6 +20,9 @@ public class PlayerHealth : MonoBehaviour
     [Header("Animation")]
     public Animator animator;
 
+    [Header("Respawn Settings")]
+    public Transform respawnPoint;      
+    public GameObject respawnButton;    
 
     void Start()
     {
@@ -30,6 +34,11 @@ public class PlayerHealth : MonoBehaviour
             Color c = damageOverlay.color;
             c.a = 0f;
             damageOverlay.color = c;
+        }
+
+        if (respawnButton != null)
+        {
+            respawnButton.SetActive(false);
         }
     }
 
@@ -48,6 +57,8 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
+        if (currentHealth <= 0) return;
+
         currentHealth -= amount;
         if (currentHealth < 0) currentHealth = 0;
 
@@ -59,7 +70,6 @@ public class PlayerHealth : MonoBehaviour
             c.a = damageAlpha; 
             damageOverlay.color = c;
         }
-
 
         if (currentHealth <= 0)
         {
@@ -90,7 +100,54 @@ public class PlayerHealth : MonoBehaviour
             c.a = damageAlpha; 
             deathOverlay.color = c;
         }
+
+        if (respawnButton != null)
+        {
+            respawnButton.SetActive(true);
+        }
+
         GetComponent<PlayerMovement>().enabled = false;
         GetComponent<Collider>().enabled = false;
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    public void Respawn()
+    {
+        Debug.Log("Respawn au bateau !");
+
+        if (respawnPoint != null)
+        {
+            transform.position = respawnPoint.position;
+            transform.rotation = respawnPoint.rotation;
+        }
+
+        currentHealth = maxHealth;
+        UpdateHealthBar();
+
+        if (deathOverlay != null)
+        {
+            Color c = deathOverlay.color;
+            c.a = 0f; 
+            deathOverlay.color = c;
+        }
+
+        if (respawnButton != null)
+        {
+            respawnButton.SetActive(false);
+        }
+
+        if (animator != null)
+        {
+            animator.Play("Blend Tree"); 
+            animator.SetFloat("walk", 0f);
+        }
+
+        GetComponent<PlayerMovement>().enabled = true;
+        GetComponent<Collider>().enabled = true;
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 }
