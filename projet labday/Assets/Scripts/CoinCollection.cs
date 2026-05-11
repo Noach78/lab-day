@@ -31,7 +31,6 @@ public class CoinCollection : MonoBehaviour
         }
     }
 
-    // NOUVELLE MÉTHODE : Permet aux autres scripts de dépenser des pièces
     public bool SpendCoins(int amount)
     {
         if (coin >= amount)
@@ -39,9 +38,9 @@ public class CoinCollection : MonoBehaviour
             coin -= amount;
             UpdateCoinUI();
             SaveCoins();
-            return true; // L'achat est validé
+            return true; 
         }
-        return false; // Pas assez de pièces
+        return false; 
     }
 
     private void SaveCoins()
@@ -54,7 +53,7 @@ public class CoinCollection : MonoBehaviour
     {
         if (coinText != null)
         {
-            coinText.text = "Coins: " + coin.ToString();
+            coinText.text = coin.ToString();
         }
     }
 }

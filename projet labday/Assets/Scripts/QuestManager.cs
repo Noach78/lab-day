@@ -26,7 +26,7 @@ public class QuestManager : MonoBehaviour
     public QuestState currentState = QuestState.Available;
 
     [Header("Objectifs (Variables)")]
-    public bool swordBought = false; // NOUVEAU : Pour la quête 1
+    public bool swordBought = false;
     
     public int skeletonsToKill = 5;
     public int currentSkeletons = 0;
@@ -75,12 +75,11 @@ public class QuestManager : MonoBehaviour
         Cursor.visible = isOpening;
     }
 
-    // --- SYSTÈME DE SAUVEGARDE ---
     private void SaveQuestData()
     {
         PlayerPrefs.SetInt("QuestIndex", currentQuestIndex);
         PlayerPrefs.SetInt("QuestState", (int)currentState);
-        PlayerPrefs.SetInt("SwordBought", swordBought ? 1 : 0); // Sauvegarde de l'épée
+        PlayerPrefs.SetInt("SwordBought", swordBought ? 1 : 0); 
         PlayerPrefs.SetInt("SkeletonsKilled", currentSkeletons);
         PlayerPrefs.SetInt("SapCollected", currentSap);
         PlayerPrefs.SetInt("GolemKilled", golemKilled ? 1 : 0);
@@ -97,12 +96,8 @@ public class QuestManager : MonoBehaviour
         golemKilled = PlayerPrefs.GetInt("GolemKilled", 0) == 1; 
     }
 
-    // --- LES SIGNAUX DES OBJECTIFS ---
-
-    // NOUVELLE MÉTHODE : Appelée par la boutique
     public void OnSwordBought()
     {
-        // On vérifie qu'on est bien à la quête 0
         if (currentState == QuestState.InProgress && currentQuestIndex == 0)
         {
             swordBought = true;
@@ -113,7 +108,7 @@ public class QuestManager : MonoBehaviour
 
     public void AddSkeletonKill()
     {
-        if (currentState == QuestState.InProgress && currentQuestIndex == 1) // Décalé à l'index 1
+        if (currentState == QuestState.InProgress && currentQuestIndex == 1) 
         {
             currentSkeletons++;
             SaveQuestData(); 
@@ -123,7 +118,7 @@ public class QuestManager : MonoBehaviour
 
     public void OnSapCollected()
     {
-        if (currentState == QuestState.InProgress && currentQuestIndex == 2) // Décalé à l'index 2
+        if (currentState == QuestState.InProgress && currentQuestIndex == 2) 
         {
             currentSap++;
             SaveQuestData(); 
@@ -133,7 +128,7 @@ public class QuestManager : MonoBehaviour
 
     public void GolemDefeated()
     {
-        if (currentState == QuestState.InProgress && currentQuestIndex == 3) // Décalé à l'index 3
+        if (currentState == QuestState.InProgress && currentQuestIndex == 3)
         {
             golemKilled = true;
             SaveQuestData();
@@ -148,7 +143,6 @@ public class QuestManager : MonoBehaviour
         if (questUI.activeSelf) RefreshUI(); 
     }
 
-    // --- BOUTONS UI ---
     public void StartQuest()
     {
         if (currentState == QuestState.Available)
@@ -171,7 +165,6 @@ public class QuestManager : MonoBehaviour
             currentQuestIndex++;
             currentState = (currentQuestIndex >= 6) ? QuestState.AllFinished : QuestState.Available;
 
-            // Réinitialisation de tout
             swordBought = false;
             currentSkeletons = 0;
             currentSap = 0;
@@ -187,7 +180,6 @@ public class QuestManager : MonoBehaviour
         if (questUI.activeSelf) ToggleQuestUI();
     }
 
-    // --- GESTION DE L'AFFICHAGE ---
     private void RefreshUI()
     {
         if (questProgressText == null) return;
@@ -206,31 +198,30 @@ public class QuestManager : MonoBehaviour
         string objectiveText = "";
         string loreText = "";
 
-        if (currentQuestIndex == 0) // NOUVELLE QUÊTE 1
+        if (currentQuestIndex == 0)
         {
-            title = "Quête 1 : S'équiper pour survivre";
-            loreText = "Il est trop dangereux de sortir les mains vides. Va voir le marchand et achète une épée.";
-            objectiveText = $"- Épée achetée : {(swordBought ? "Oui" : "Non")}";
+            title = "Quest 1: Equip to Survive";
+            loreText = "It is too dangerous to go out empty-handed. Go see the merchant and buy a sword.";
+            objectiveText = $"- Sword bought: {(swordBought ? "Yes" : "No")}";
         }
-        else if (currentQuestIndex == 1) // SQUELETTES (devenue Quête 2)
+        else if (currentQuestIndex == 1)
         {
-            title = "Quête 2 : La menace des os";
-            loreText = "Maintenant que tu es armé, nettoie la zone des squelettes.";
-            objectiveText = $"- Squelettes tués : {currentSkeletons}/{skeletonsToKill}";
+            title = "Quest 2: The Bone Threat";
+            loreText = "Now that you are armed, clear the area of skeletons.";
+            objectiveText = $"- Skeletons killed: {currentSkeletons}/{skeletonsToKill}";
         }
-        else if (currentQuestIndex == 2) // SÈVE (devenue Quête 3)
+        else if (currentQuestIndex == 2)
         {
-            title = "Quête 3 : L'or de la forêt";
-            loreText = "J'ai besoin de sève magique pour déchiffrer la suite. Fouille les arbres.";
-            objectiveText = $"- Sève récoltée : {currentSap}/{sapToCollect}";
+            title = "Quest 3: The Forest's Gold";
+            loreText = "I need magic sap to decipher the rest. Search the trees.";
+            objectiveText = $"- Sap collected: {currentSap}/{sapToCollect}";
         }
-        else if (currentQuestIndex == 3) // GOLEM (devenue Quête 4)
+        else if (currentQuestIndex == 3)
         {
-            title = "Quête 4 : Le Gardien de Pierre";
-            loreText = "Le prochain fragment est gardé par un Golem. Montre ce que tu sais faire !";
-            objectiveText = $"- Golem vaincu : {(golemKilled ? "Oui" : "Non")}";
+            title = "Quest 4: The Stone Guardian";
+            loreText = "The next fragment is guarded by a Golem. Show what you can do!";
+            objectiveText = $"- Golem defeated: {(golemKilled ? "Yes" : "No")}";
         }
-
         switch (currentState)
         {
             case QuestState.Available:
