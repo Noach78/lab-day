@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: e86e81b1f04954e1a82f00fa85605984
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 167551
+  packageName: Quantum Inventory
+  packageVersion: 1.0
+  assetPath: Assets/Quantum Tek/Quantum Inventory/Demo/Data/Demo Crafting Recipe
+    Database.asset
+  uploadId: 365348

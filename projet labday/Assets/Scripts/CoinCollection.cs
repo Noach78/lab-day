@@ -13,7 +13,6 @@ public class CoinCollection : MonoBehaviour
     private void Start()
     {
         coin = PlayerPrefs.GetInt(COIN_SAVE_KEY, 0);
-
         UpdateCoinUI();
     }
 
@@ -22,19 +21,33 @@ public class CoinCollection : MonoBehaviour
         if (other.transform.tag == "Coin")
         {
             int randomAmount = Random.Range(50, 151);
-
             coin += randomAmount;
-
-            UpdateCoinUI();
-
-            PlayerPrefs.SetInt(COIN_SAVE_KEY, coin);
             
-            PlayerPrefs.Save(); 
+            UpdateCoinUI();
+            SaveCoins();
 
             Debug.Log("Gagné: " + randomAmount + " | Total: " + coin);
-
             Destroy(other.gameObject);
         }
+    }
+
+    // NOUVELLE MÉTHODE : Permet aux autres scripts de dépenser des pièces
+    public bool SpendCoins(int amount)
+    {
+        if (coin >= amount)
+        {
+            coin -= amount;
+            UpdateCoinUI();
+            SaveCoins();
+            return true; // L'achat est validé
+        }
+        return false; // Pas assez de pièces
+    }
+
+    private void SaveCoins()
+    {
+        PlayerPrefs.SetInt(COIN_SAVE_KEY, coin);
+        PlayerPrefs.Save(); 
     }
 
     private void UpdateCoinUI()

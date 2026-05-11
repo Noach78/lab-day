@@ -61,3 +61,23 @@ The following packages were added:
   com.unity.analytics@3.8.1
   com.unity.purchasing@4.12.2
   com.unity.xr.legacyinputhelpers@2.1.12
+
+=== Wed Apr 29 15:18:54 2026
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.test-framework from version 1.1.13 to 1.6.0
+  com.unity.timeline from version 1.2.14 to 1.8.9
+  com.unity.ugui from version 1.0.0 to 2.0.0
+The following packages were removed:
+  com.unity.textmeshpro@2.0.1
+
+=== Wed Apr 29 15:18:55 2026
+
+Packages were changed.
+Update Mode: mergeDefaultDependencies
+
+The following packages were added:
+  com.unity.ide.vscode@1.1.4

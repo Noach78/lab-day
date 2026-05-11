@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    //Third Person Controller References
+    [Header("Third Person Controller References")]
     [SerializeField]
     private Animator playerAnim;
 
-    //Equip-Unequip parameters
+    [Header("Equip-Unequip parameters")]
     [SerializeField]
     private GameObject sword;
     [SerializeField]
@@ -16,29 +16,36 @@ public class PlayerController : MonoBehaviour
     public bool isEquipping;
     public bool isEquipped;
 
-    //Attack Parameters
+    [Header("Attack Parameters")]
     public bool isAttacking;
     private float timeSinceAttack;
     public int currentAttack = 0;
 
-    private void Update()
-    {
-        timeSinceAttack += Time.deltaTime;
+    [Header("Damage Parameters (Nouveau)")]
+    public int swordDamage = 25;       // Dégâts infligés par l'épée
+    public float attackRange = 1.5f;   // Rayon de la zone d'impact
+    public float attackForwardOffset = 1.0f; // Distance de l'attaque devant le joueur
 
-        Attack();
-        Equip();
+    private void Update()
+{
+    timeSinceAttack += Time.deltaTime;
+
+    
+    if (isAttacking && timeSinceAttack > 1.5f)
+    {
+        isAttacking = false;
+        currentAttack = 0; // On en profite pour réinitialiser le combo
     }
+
+    Attack();
+    Equip();
+}
 
     private void Equip()
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            // On appelle ActiveWeapon pour déplacer l'épée dans la main
-            // et inverser la valeur de isEquipped
             ActiveWeapon();
-            
-            // Maintenant on dit à l'Animator si on est armé ou non
-            // (Il manquait le 2ème paramètre ici !)
             playerAnim.SetBool("isArmed", isEquipped);
         }
     }
@@ -49,13 +56,13 @@ public class PlayerController : MonoBehaviour
         {
             sword.SetActive(true);
             swordOnShoulder.SetActive(false);
-            isEquipped = true; // On force la valeur à true
+            isEquipped = true; 
         }
         else
         {
             sword.SetActive(false);
             swordOnShoulder.SetActive(true);
-            isEquipped = false; // On force la valeur à false
+            isEquipped = false; 
         }
     }
 
@@ -68,18 +75,15 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && isEquipped)
         {
-            // 1. SÉCURITÉ : Si on est déjà en train de donner un coup, on ignore le clic
             if (isAttacking) 
                 return;
 
-            // 2. CHRONO : Si on a attendu trop longtemps, on remet le combo à ZÉRO
-            // On le fait avant d'ajouter +1 !
             if (timeSinceAttack > 5.0f)
             {
                 currentAttack = 0;
+                isAttacking = false;
             }
 
-            // 3. COMBO : On passe au coup suivant (0 devient 1, 1 devient 2...)
             currentAttack++;
 
             if (currentAttack > 3)
@@ -87,14 +91,35 @@ public class PlayerController : MonoBehaviour
                 currentAttack = 1;
             }
 
-            // 4. ACTION : On bloque les prochains clics et on lance l'animation
             isAttacking = true;
 
             Debug.Log("Lancement de l'attaque : " + currentAttack);
             playerAnim.SetTrigger("Attack" + currentAttack);
             
-            // 5. On remet le chrono à zéro pour le prochain clic
             timeSinceAttack = 0;
+        }
+    }
+
+    // --- NOUVELLE FONCTION ---
+    // À utiliser comme Animation Event pile quand la lame tranche l'air !
+    public void DealDamage()
+    {
+        // 1. Calcule le centre de l'attaque (devant le joueur, à hauteur de taille)
+        Vector3 attackCenter = transform.position + transform.forward * attackForwardOffset + Vector3.up * 1.0f;
+
+        // 2. Crée une sphère de détection
+        Collider[] hitColliders = Physics.OverlapSphere(attackCenter, attackRange);
+
+        // 3. Vérifie tout ce que la sphère a touché
+        foreach (Collider hit in hitColliders)
+        {
+            SkeletonAI skeleton = hit.GetComponent<SkeletonAI>();
+            
+            // Si c'est un squelette, on lui inflige des dégâts !
+            if (skeleton != null)
+            {
+                skeleton.TakeDamage(swordDamage);
+            }
         }
     }
 
@@ -103,4 +128,12 @@ public class PlayerController : MonoBehaviour
     {
         isAttacking = false;
     } 
+
+    // --- BONUS : Pour t'aider à visualiser la zone d'attaque dans l'éditeur ---
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Vector3 attackCenter = transform.position + transform.forward * attackForwardOffset + Vector3.up * 1.0f;
+        Gizmos.DrawWireSphere(attackCenter, attackRange);
+    }
 }

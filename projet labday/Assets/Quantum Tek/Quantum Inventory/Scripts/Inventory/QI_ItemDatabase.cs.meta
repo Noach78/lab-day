@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 93675abe7d63f49639a0f05d57762ace
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 167551
+  packageName: Quantum Inventory
+  packageVersion: 1.0
+  assetPath: Assets/Quantum Tek/Quantum Inventory/Scripts/Inventory/QI_ItemDatabase.cs
+  uploadId: 365348
